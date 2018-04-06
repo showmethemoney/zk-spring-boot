@@ -1,0 +1,29 @@
+<vlayout apply="org.zkoss.bind.BindComposer" 
+	viewModel="@id('vm') @init('zk.springboot.charts.CombineComposer')">
+		
+	<tabbox id="tb" height="800px">
+    <tabs id="tabs">
+        <tab id="A" label="Tab A" />
+        <tab id="B" label="Tab B" />
+        <tab id="C" label="Tab C" />
+        <tab id="D" label="Tab D" />
+        <tab id="E" label="Tab E" />
+    </tabs>
+    <tabpanels>
+        <tabpanel height="500px">
+        	<charts id="line-chart" type="line" title="Monthly Average Temperature" subtitle="Source: WorldClimate.com" model="@bind(vm.lineModel)" legend="@bind(vm.legend)"/>
+        	
+        	<chart id="candlestick-chart" width="680" height="400" yAxis="Price" fgAlpha="128" paneColor="#ffffff" type="candlestick"
+		     model="@bind(vm.hiLoModel)" engine="@bind(vm.engine)"/>
+        </tabpanel>
+        
+        <tabpanel>
+        	<chart id="candlestick-chart-1" width="680" height="400" yAxis="Price" fgAlpha="128" paneColor="#ffffff" 
+			 type="candlestick" model="@bind(vm.hiLoModel)" engine="@bind(vm.engine)" />
+		</tabpanel>
+        <tabpanel>This is panel C</tabpanel>
+        <tabpanel>This is panel D</tabpanel>
+        <tabpanel>This is panel E</tabpanel>
+    </tabpanels>
+</tabbox>	
+</vlayout>

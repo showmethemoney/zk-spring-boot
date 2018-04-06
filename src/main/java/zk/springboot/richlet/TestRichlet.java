@@ -2,14 +2,14 @@ package zk.springboot.richlet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-import org.zkoss.zk.ui.*;
-import org.zkoss.zk.ui.select.annotation.VariableResolver;
-import org.zkoss.zk.ui.select.annotation.WireVariable;
-import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zk.ui.GenericRichlet;
+import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.RichletConfig;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Window;
+
 import zk.springboot.service.TestService;
 
 public class TestRichlet extends GenericRichlet {

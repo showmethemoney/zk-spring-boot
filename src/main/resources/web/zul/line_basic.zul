@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<window apply="zk.springboot.charts.LineBasicComposer">
+<tabbox id="tb" height="800px">
+    <tabs id="tabs">
+        <tab id="A" label="Tab A" />
+        <tab id="B" label="Tab B" />
+        <tab id="C" label="Tab C" />
+        <tab id="D" label="Tab D" />
+        <tab id="E" label="Tab E" />
+    </tabs>
+    <tabpanels>
+        <tabpanel height="500px">
+        	<charts id="chart" type="line" title="Monthly Average Temperature" subtitle="Source: WorldClimate.com" />
+        </tabpanel>
+        <tabpanel>
+
+		</tabpanel>
+        <tabpanel>This is panel C</tabpanel>
+        <tabpanel>This is panel D</tabpanel>
+        <tabpanel>This is panel E</tabpanel>
+    </tabpanels>
+</tabbox>
+</window>

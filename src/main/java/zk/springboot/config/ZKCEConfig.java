@@ -1,5 +1,7 @@
 package zk.springboot.config;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -9,8 +11,6 @@ import org.zkoss.web.util.resource.ClassWebResource;
 import org.zkoss.zk.au.http.DHtmlUpdateServlet;
 import org.zkoss.zk.ui.http.HttpSessionListener;
 import org.zkoss.zk.ui.http.RichletFilter;
-
-import javax.servlet.http.HttpServletRequest;
 
 public class ZKCEConfig {
 	private static final String UPDATE_URI = "/zkau"; //servlet mapping for ZK's update servlet

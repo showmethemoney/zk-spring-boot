@@ -8,9 +8,6 @@ import org.springframework.context.annotation.Import;
 import org.zkoss.zkmax.au.websocket.WebSocketFilter;
 import org.zkoss.zkmax.ui.comet.CometAsyncServlet;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-
 @Import(ZKCEConfig.class)
 public class ZKEEConfig {
 	@Bean

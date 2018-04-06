@@ -1,15 +1,14 @@
 package zk.springboot.config;
 
+import javax.websocket.server.ServerContainer;
+import javax.websocket.server.ServerEndpointConfig;
+
 import org.zkoss.lang.Library;
 import org.zkoss.zk.ui.WebApp;
 import org.zkoss.zk.ui.http.ZKWebSocket;
 import org.zkoss.zk.ui.util.WebAppInit;
 import org.zkoss.zkmax.au.websocket.WebSocketDesktopInit;
 import org.zkoss.zkmax.au.websocket.WebSocketEndPoint;
-
-import javax.websocket.server.ServerContainer;
-import javax.websocket.server.ServerEndpointConfig;
-import java.util.EnumSet;
 
 /**
  * obsolete after ZK-3799 is implemented (8.5.1 ?)

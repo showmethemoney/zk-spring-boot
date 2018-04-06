@@ -1,11 +1,12 @@
 package zk.springboot.service;
 
-import org.springframework.stereotype.Service;
-
 import java.util.Date;
 
+import org.springframework.stereotype.Service;
+
 @Service
-public class TestService {
+public class TestService
+{
 	public Date getTime() {
 		return new Date();
 	}
