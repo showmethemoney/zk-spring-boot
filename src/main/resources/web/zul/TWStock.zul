@@ -1,0 +1,63 @@
+<window border="none" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('zk.springboot.controller.TWStockController')">
+	<grid>
+		<auxhead>
+			<auxheader colspan="4" class="topic">Edit Data</auxheader>
+		</auxhead>
+		<columns>
+			<column label="股票類型" align="center" />
+			<column label="產業" align="center" />
+			<column label="股票" align="center" />
+			<column label=" " align="center" />
+		</columns>
+		<rows>
+			<row>
+				<combobox model="@load(vm.stockTypes)" value="-- 請選擇 --"
+					onSelect="@command('selectStockType')" selectedItem="@bind(vm.selectedStockType)">
+					<template name="model">
+						<comboitem label="@load(each.label)" />
+					</template>
+				</combobox>
+
+				<combobox model="@load(vm.industries)" value="-- 請選擇 --"
+					onSelect="@command('selectIndustry')" selectedItem="@bind(vm.selectedIndustry)">
+					<template name="model">
+						<comboitem label="@load(each.label)" />
+					</template>
+				</combobox>
+
+				<combobox model="@load(vm.stocks)" value="-- 請選擇 --"
+					onSelect="@command('selectStock')" selectedItem="@bind(vm.selectedStock)">
+					<template name="model">
+						<comboitem label="@load(each.label)" />
+					</template>
+				</combobox>
+
+				<button label="查詢" onClick="@command('search')" />
+			</row>
+		</rows>
+	</grid>
+
+	<grid visible="@load(not empty vm.todayPrice)">
+		<auxhead>
+            <auxheader colspan="4" label="@load(vm.todayPrice.code)  @load(vm.todayPrice.name)" />
+        </auxhead>
+		<rows sclass="narrow">	
+			<row>
+				<label value="最近成交價"/>
+				<label style="color: red" value="@load(vm.todayPrice.lastPrice)" if="${vm.todayPrice.positive}"/>
+				<label style="color: green" value="@load(vm.todayPrice.lastPrice)" if="${not vm.todayPrice.positive}"/>
+				<label value="漲跌價差(百分比)"/>
+				<label style="color: red" value="@load(vm.todayPrice.priceDifferenceText)" if="${vm.todayPrice.positive}"/>
+				<label style="color: green" value="@load(vm.todayPrice.priceDifferenceText)" if="${not vm.todayPrice.positive}"/>
+			</row>
+			<row>
+				<label value="當盤成交量"/>
+				<label value="@load(vm.todayPrice.lastTradeCount)"/>
+				<label value="累積成交量"/>
+				<label value="@load(vm.todayPrice.totalTradeCount)"/>
+			</row>
+
+         </rows>
+	</grid>
+</window>

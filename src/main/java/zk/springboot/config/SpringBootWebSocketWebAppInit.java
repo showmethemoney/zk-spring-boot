@@ -2,7 +2,6 @@ package zk.springboot.config;
 
 import javax.websocket.server.ServerContainer;
 import javax.websocket.server.ServerEndpointConfig;
-
 import org.zkoss.lang.Library;
 import org.zkoss.zk.ui.WebApp;
 import org.zkoss.zk.ui.http.ZKWebSocket;
@@ -15,23 +14,23 @@ import org.zkoss.zkmax.au.websocket.WebSocketEndPoint;
  */
 public class SpringBootWebSocketWebAppInit implements WebAppInit {
 
-	public void init(WebApp wapp) throws Exception {
-		String url = getWebSocketUrl();
+    public void init(WebApp wapp) throws Exception {
+        String url = getWebSocketUrl();
 
-		wapp.setAttribute("websocketUrl", url);
-		ServerEndpointConfig config = ServerEndpointConfig.Builder.create(WebSocketEndPoint.class, url).configurator(new ZKWebSocket()).build();
-		ServerContainer serverContainer = (ServerContainer)wapp.getServletContext().getAttribute("javax.websocket.server.ServerContainer");
-		serverContainer.addEndpoint(config);
-		wapp.getConfiguration().addListener(WebSocketDesktopInit.class);
-	}
+        wapp.setAttribute("websocketUrl", url);
+        ServerEndpointConfig config = ServerEndpointConfig.Builder.create(WebSocketEndPoint.class, url).configurator(new ZKWebSocket()).build();
+        ServerContainer serverContainer = (ServerContainer) wapp.getServletContext().getAttribute("javax.websocket.server.ServerContainer");
+        serverContainer.addEndpoint(config);
+        wapp.getConfiguration().addListener(WebSocketDesktopInit.class);
+    }
 
-	public static String getWebSocketUrl() {
-		String url = Library.getProperty("org.zkoss.zkmax.au.websocket.WebSocketEndPoint.urlPattern");
-		if (url == null) {
-			url = "/zkwm";
-		} else if (url.endsWith("/")) {
-			url = url.substring(0, url.length() - 1);
-		}
-		return url;
-	}
+    public static String getWebSocketUrl() {
+        String url = Library.getProperty("org.zkoss.zkmax.au.websocket.WebSocketEndPoint.urlPattern");
+        if (url == null) {
+            url = "/zkwm";
+        } else if (url.endsWith("/")) {
+            url = url.substring(0, url.length() - 1);
+        }
+        return url;
+    }
 }
