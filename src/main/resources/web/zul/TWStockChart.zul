@@ -1,0 +1,48 @@
+<window border="none" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('zk.springboot.controller.TWStockChartController')">
+	<grid>
+		<auxhead>
+			<auxheader colspan="6" class="topic">Edit Data</auxheader>
+		</auxhead>
+		<columns>
+			<column label="股票類型" align="center" width="20%" />
+			<column label="產業" align="center" width="20%" />
+			<column label="股票" align="center" width="20%" />
+			<column label="開始日期" align="center" width="15%" />
+			<column label="結束日期" align="center" width="15%" />
+			<column label=" " align="center" width="10%" />
+		</columns>
+		<rows>
+			<row>
+				<combobox model="@load(vm.stockTypes)" value="-- 請選擇 --" onSelect="@command('selectStockType')" selectedItem="@bind(vm.selectedStockType)">
+					<template name="model">
+						<comboitem label="@load(each.label)" />
+					</template>
+				</combobox>
+
+				<combobox model="@load(vm.industries)" value="-- 請選擇 --" onSelect="@command('selectIndustry')" selectedItem="@bind(vm.selectedIndustry)">
+					<template name="model">
+						<comboitem label="@load(each.label)" />
+					</template>
+				</combobox>
+
+				<combobox model="@load(vm.stocks)" value="-- 請選擇 --" onSelect="@command('selectStock')" selectedItem="@bind(vm.selectedStock)">
+					<template name="model">
+						<comboitem label="@load(each.label)" />
+					</template>
+				</combobox>
+					
+				<datebox value="@bind(vm.startDate)" width="100%"/>
+				
+				<datebox value="@bind(vm.endDate)" width="100%"/>	
+					
+				<button label="查詢" onClick="@command('show')" />
+			</row>
+		</rows>
+	</grid>
+		
+	<vlayout visible="@bind(vm.show)" >
+		<chart id="chart" width="680" height="400" yAxis="Price" fgAlpha="128" paneColor="#ffffff"
+			type="candlestick" model="@bind(vm.model)" engine="@bind(vm.engine)" />
+	</vlayout>
+</window>

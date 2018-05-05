@@ -45,11 +45,9 @@
 		<rows sclass="narrow">	
 			<row>
 				<label value="最近成交價"/>
-				<label style="color: red" value="@load(vm.todayPrice.lastPrice)" if="${vm.todayPrice.positive}"/>
-				<label style="color: green" value="@load(vm.todayPrice.lastPrice)" if="${not vm.todayPrice.positive}"/>
+				<label value="@load(vm.todayPrice.lastPrice)"/>
 				<label value="漲跌價差(百分比)"/>
-				<label style="color: red" value="@load(vm.todayPrice.priceDifferenceText)" if="${vm.todayPrice.positive}"/>
-				<label style="color: green" value="@load(vm.todayPrice.priceDifferenceText)" if="${not vm.todayPrice.positive}"/>
+				<label value="@load(vm.todayPrice.priceDifferenceText)"/>
 			</row>
 			<row>
 				<label value="當盤成交量"/>
@@ -57,7 +55,6 @@
 				<label value="累積成交量"/>
 				<label value="@load(vm.todayPrice.totalTradeCount)"/>
 			</row>
-
          </rows>
 	</grid>
 </window>

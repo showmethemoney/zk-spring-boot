@@ -1,12 +1,12 @@
 package zk.springboot.charts.candlestick;
 
-import java.awt.Color;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
 import org.zkoss.zkex.zul.impl.JFreeChartEngine;
 import org.zkoss.zul.Chart;
+
 import zk.springboot.charts.candlestick.model.ChartColors;
 
 public class CandlestickChartEngine extends JFreeChartEngine {

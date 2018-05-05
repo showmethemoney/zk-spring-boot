@@ -71,7 +71,7 @@ public class TestTWStockService {
         });
     }
 
-    @Ignore
+//    @Ignore
     @Test
     public void testGetDailyTrade() {
         Calendar start = Calendar.getInstance();
@@ -79,11 +79,12 @@ public class TestTWStockService {
         Calendar end = Calendar.getInstance();
 
         service.getDailyTrade(StockType.TSE.getType(), "1101", start.getTime(), end.getTime()).stream().forEach(e -> {
-            logger.info("{} --> trading date : {}", StockType.TSE.getType(), e.getTradingDate());
+            logger.info("{} --> trading date : {} {} {} {}", StockType.TSE.getType(), e.getOpeningPrice(), e.getDayHigh(), e.getDayLow(), e.getClosingPrice());
         });
-
-        service.getDailyTrade(StockType.OTC.getType(), "5820", start.getTime(), end.getTime()).stream().forEach(e -> {
-            logger.info("{} --> trading date : {}", StockType.OTC.getType(), e.getTradingDate());
-        });
+//
+//        service.getDailyTrade(StockType.OTC.getType(), "5820", start.getTime(), end.getTime()).stream().forEach(e -> {
+//            logger.info("{} --> trading date : {}", StockType.OTC.getType(), e.getTradingDate());
+//        });
     }
+    
 }
