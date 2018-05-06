@@ -2,7 +2,7 @@
 	viewModel="@id('vm') @init('zk.springboot.controller.TWStockChartController')">
 	<grid>
 		<auxhead>
-			<auxheader colspan="6" class="topic">Edit Data</auxheader>
+			<auxheader colspan="6" class="topic">Candlestick Chart</auxheader>
 		</auxhead>
 		<columns>
 			<column label="股票類型" align="center" width="20%" />
@@ -42,7 +42,41 @@
 	</grid>
 		
 	<vlayout visible="@bind(vm.show)" >
-		<chart id="chart" width="680" height="400" yAxis="Price" fgAlpha="128" paneColor="#ffffff"
-			type="candlestick" model="@bind(vm.model)" engine="@bind(vm.engine)" />
+		<div align="center" style="margin:0 auto;" width="80%" onAfterSize='chart.setWidth(event.getWidth() + "px")'>
+			<chart id="chart" height="600" yAxis="Price" fgAlpha="128" paneColor="#ffffff"
+				type="candlestick" model="@bind(vm.model)" engine="@bind(vm.engine)" />
+		</div>
+		
+		<div width="80%" align="center" style="margin:0 auto;">	
+			<listbox model="@load(vm.stockDailyTrading)" rows="10">
+			 	<auxhead>
+					<auxheader colspan="9" class="topic">歷史資料</auxheader>
+				</auxhead>
+		        <listhead>
+		            <listheader label="交易日期" />
+		            <listheader label="成交股數" />
+		            <listheader label="成交金額" />
+		            <listheader label="開盤價" />
+		            <listheader label="收盤價" />
+		            <listheader label="當日最高價" />
+		            <listheader label="當日最低價" />
+		            <listheader label="漲跌價差" />
+		            <listheader label="成交筆數" />
+		        </listhead>
+		        <template name="model">
+		        	<listitem>
+		            	<listcell><label value="${each.tradingDate}"></label></listcell>
+		           		<listcell><label value="${each.tradingShares}"></label></listcell>
+		           		<listcell><label value="${each.turnover}"></label></listcell>
+		            	<listcell><label value="${each.openingPrice}"></label></listcell>
+		           		<listcell><label value="${each.closingPrice}"></label></listcell>
+		           		<listcell><label value="${each.dayHigh}"></label></listcell>
+		            	<listcell><label value="${each.dayLow}"></label></listcell>
+		           		<listcell><label value="${each.priceDifference}"></label></listcell>
+		           		<listcell><label value="${each.totalVolume}"></label></listcell>
+		       		 </listitem>
+		        </template>
+	    	</listbox>
+		</div>
 	</vlayout>
 </window>

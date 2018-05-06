@@ -1,10 +1,21 @@
 package zk.springboot.service;
 
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.Chronology;
+import java.time.chrono.MinguoChronology;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DecimalStyle;
+import java.time.temporal.TemporalAccessor;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
+import java.util.TimeZone;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +37,19 @@ public class TWStcokChartService {
 			Iterator<TWStockDailyTrading> iterator = twStockDailyTradings.iterator();
 			result = new SimpleHiLoModel();
 			TWStockDailyTrading trading = null;
-
+			
+	        Locale locale = Locale.getDefault(Locale.Category.FORMAT);
+	        Chronology chrono = MinguoChronology.INSTANCE;
+	        DateTimeFormatter df = new DateTimeFormatterBuilder().parseLenient().appendPattern("yy/MM/dd").toFormatter().withChronology(chrono).withDecimalStyle(DecimalStyle.of(locale));
+			
 			while (iterator.hasNext()) {
 				trading = (TWStockDailyTrading) iterator.next();
-				 
-				result.addValue((DateUtils.parseDate(trading.getTradingDate(), new String[] {"yyyy/MM/dd", "yyyyMMdd"})), 
+				
+				TemporalAccessor temporal = df.parse(trading.getTradingDate());
+				ChronoLocalDate localDate = chrono.date(temporal);
+
+				result.addValue(
+				        Date.from(LocalDate.from(localDate).atStartOfDay(ZoneId.of("UTC+8")).toInstant()), 
 						Double.parseDouble(trading.getOpeningPrice()), 
 						Double.parseDouble(trading.getDayHigh()),
 						Double.parseDouble(trading.getDayLow()), 

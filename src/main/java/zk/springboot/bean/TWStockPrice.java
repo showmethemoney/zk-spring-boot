@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -41,7 +42,7 @@ public class TWStockPrice implements Serializable {
     private String highestPrice = null;
     @JsonProperty("z") // 最近 成交價
     private String lastPrice = null;
-    @JsonProperty("y") // 開盤
+    @JsonProperty("y")  
     private String yesterdayPrice = null;
     @JsonProperty("n") // 名稱
     private String name = null;
@@ -221,7 +222,7 @@ public class TWStockPrice implements Serializable {
     }
 
     public String getPriceDifference() {
-        return new BigDecimal(getLastPrice()).subtract(new BigDecimal(getOpenPrice())).toPlainString();
+        return StringUtils.isBlank(getLastPrice()) ? null : new BigDecimal(getLastPrice()).subtract(new BigDecimal(getOpenPrice())).toPlainString();
     }
 
     public void setPriceDifference(String priceDifference) {
@@ -229,7 +230,7 @@ public class TWStockPrice implements Serializable {
     }
 
     public String getPriceDifferencePercent() {
-        return new BigDecimal(getPriceDifference()).divide(new BigDecimal(getOpenPrice()), 4, RoundingMode.HALF_UP).toPlainString();
+        return null == getPriceDifference() ? null : new BigDecimal(getPriceDifference()).divide(new BigDecimal(getOpenPrice()), 4, RoundingMode.HALF_UP).toPlainString();
     }
 
     public void setPriceDifferencePercent(String priceDifferencePercent) {
@@ -237,11 +238,15 @@ public class TWStockPrice implements Serializable {
     }
 
     public String getPriceDifferenceText() {
-        return (isPositive() ? "▲ " :"▼ ") + getPriceDifference() + String.format(" (%,.2f%%)", Float.valueOf(getPriceDifferencePercent() ) * 100 );
+        if (StringUtils.isBlank(getPriceDifference())) {
+            return "";
+        } else {
+            return (isPositive() ? "▲ " :"▼ ") + getPriceDifference() + String.format(" (%,.2f%%)", Float.valueOf(getPriceDifferencePercent() ) * 100 );
+        }
     }
     
     public boolean isPositive() {
-        BigDecimal difference = new BigDecimal(getPriceDifference());
+        BigDecimal difference = new BigDecimal(StringUtils.isBlank(getPriceDifference()) ? "0" : getPriceDifference());
         return difference.compareTo(BigDecimal.ZERO) > 0;
     }
     

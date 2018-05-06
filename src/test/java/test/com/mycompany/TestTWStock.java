@@ -120,9 +120,10 @@ public class TestTWStock {
             // {"msgArray":[{"ts":"0","fv":"23","tk0":"2330.tw_tse_20180331_B_9999331832","tk1":"2330.tw_tse_20180331_B_9999312753","oa":"248.50","ob":"248.00","tlong":"1522477800000","ot":"14:30:00","f":"14_161_394_813_784_","ex":"tse","g":"101_189_356_149_315_","ov":"11912","d":"20180331","it":"12","b":"247.00_246.50_246.00_245.50_245.00_","c":"2330","mt":"000000","a":"247.50_248.00_248.50_249.00_249.50_","n":"台積電","o":"247.50","l":"246.50","oz":"248.00","h":"249.00","ip":"0","i":"24","w":"221.50","v":"3569","u":"270.50","t":"13:30:00","s":"110","pz":"247.50","tv":"110","p":"0","nf":"台灣積體電路製造股份有限公司","ch":"2330.tw","z":"247.50","y":"246.00","ps":"106"}],"userDelay":5000,"rtmessage":"OK","referer":"","queryTime":{"sysTime":"09:32:27","sessionLatestTime":-1,"sysDate":"20180401","sessionKey":"tse_2330.tw_20180331|","sessionFromTime":-1,"stockInfoItem":910,"showChart":false,"sessionStr":"UserSession","stockInfo":115760},"rtcode":"0000"}
             // logger.info( StringUtils.trim( IOUtils.toString( response.getEntity().getContent(), "UTF-8" ) )
             // );
-
+            String str = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
+            logger.info(str);
             TWStockPriceInfo stockPriceInfo = new ObjectMapper()
-                    .readValue(StringUtils.trim(IOUtils.toString(response.getEntity().getContent(), "UTF-8")), TWStockPriceInfo.class);
+                    .readValue(StringUtils.trim(str), TWStockPriceInfo.class);
 
             for (TWStockPrice price : stockPriceInfo.getStockPrices()) {
                 logger.info(price.getPriceDifference());

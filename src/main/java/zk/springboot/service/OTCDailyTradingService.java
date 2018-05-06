@@ -69,8 +69,8 @@ public class OTCDailyTradingService implements DailyTradingService {
                     entity.setTurnover(list.get(2));
                     entity.setOpeningPrice(list.get(3));
                     entity.setDayHigh(list.get(4));
-                    entity.setClosingPrice(list.get(5));
-                    entity.setDayLow(list.get(6));
+                    entity.setDayLow(list.get(5));
+                    entity.setClosingPrice(list.get(6));
                     entity.setPriceDifference(list.get(7));
                     entity.setTotalVolume(list.get(8));
 

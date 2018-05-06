@@ -34,7 +34,7 @@ public class TWStockChartController {
 	private TWStockService stockService = null;
 	@WireVariable
 	private TWStcokChartService stockChartService = null;
-
+	
 	private CandlestickChartEngine engine = null;
 	private HiLoModel model = null;
 
@@ -50,7 +50,8 @@ public class TWStockChartController {
 	private Date endDate = null;
 	
 	private boolean show = false;
-
+	private List<TWStockDailyTrading> stockDailyTrading = null;
+	
 	@Init
 	public void init() {
 		engine = new CandlestickChartEngine();
@@ -61,7 +62,7 @@ public class TWStockChartController {
 		}
 
 		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MONTH, -1);
+		calendar.add(Calendar.MONTH, -2);
 		startDate = calendar.getTime();
 		endDate = Calendar.getInstance().getTime();
 	}
@@ -102,7 +103,7 @@ public class TWStockChartController {
 		logger.info("onSelectStock {} : {} ", getSelectedStock().getLabel(), getSelectedStock().getValue());
 	}
 
-	@NotifyChange({ "model", "show" })
+	@NotifyChange({ "model", "stockDailyTrading","show" })
 	@Command("show")
 	public void show() {
 		try {
@@ -112,7 +113,7 @@ public class TWStockChartController {
 					DateFormatUtils.format(getStartDate(), "yyyy/MM/dd hh:mm:ss"),
 					DateFormatUtils.format(getEndDate(), "yyyy/MM/dd hh:mm:ss"));
 
-			List<TWStockDailyTrading> stockDailyTrading = stockService.getDailyTrade(getSelectedStockType().getValue(),
+			stockDailyTrading = stockService.getDailyTrade(getSelectedStockType().getValue(),
 					StringUtils.substringBefore(((String) getSelectedStock().getValue()), "."), getStartDate(),
 					getEndDate());
 
@@ -126,92 +127,100 @@ public class TWStockChartController {
 		}
 	}
 
-	public ListModelList<Listitem> getStockTypes() {
-		return stockTypes;
-	}
+    public CandlestickChartEngine getEngine() {
+        return engine;
+    }
 
-	public void setStockTypes(ListModelList<Listitem> stockTypes) {
-		this.stockTypes = stockTypes;
-	}
+    public void setEngine(CandlestickChartEngine engine) {
+        this.engine = engine;
+    }
 
-	public ListModelList<Listitem> getIndustries() {
-		return industries;
-	}
+    public HiLoModel getModel() {
+        return model;
+    }
 
-	public void setIndustries(ListModelList<Listitem> industries) {
-		this.industries = industries;
-	}
+    public void setModel(HiLoModel model) {
+        this.model = model;
+    }
 
-	public ListModelList<Listitem> getStocks() {
-		return stocks;
-	}
+    public ListModelList<Listitem> getStockTypes() {
+        return stockTypes;
+    }
 
-	public void setStocks(ListModelList<Listitem> stocks) {
-		this.stocks = stocks;
-	}
+    public void setStockTypes(ListModelList<Listitem> stockTypes) {
+        this.stockTypes = stockTypes;
+    }
 
-	public Listitem getSelectedStockType() {
-		return selectedStockType;
-	}
+    public ListModelList<Listitem> getIndustries() {
+        return industries;
+    }
 
-	public void setSelectedStockType(Listitem selectedStockType) {
-		this.selectedStockType = selectedStockType;
-	}
+    public void setIndustries(ListModelList<Listitem> industries) {
+        this.industries = industries;
+    }
 
-	public Listitem getSelectedIndustry() {
-		return selectedIndustry;
-	}
+    public ListModelList<Listitem> getStocks() {
+        return stocks;
+    }
 
-	public void setSelectedIndustry(Listitem selectedIndustry) {
-		this.selectedIndustry = selectedIndustry;
-	}
+    public void setStocks(ListModelList<Listitem> stocks) {
+        this.stocks = stocks;
+    }
 
-	public Listitem getSelectedStock() {
-		return selectedStock;
-	}
+    public Listitem getSelectedStockType() {
+        return selectedStockType;
+    }
 
-	public void setSelectedStock(Listitem selectedStock) {
-		this.selectedStock = selectedStock;
-	}
+    public void setSelectedStockType(Listitem selectedStockType) {
+        this.selectedStockType = selectedStockType;
+    }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    public Listitem getSelectedIndustry() {
+        return selectedIndustry;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    public void setSelectedIndustry(Listitem selectedIndustry) {
+        this.selectedIndustry = selectedIndustry;
+    }
 
-	public Date getEndDate() {
-		return endDate;
-	}
+    public Listitem getSelectedStock() {
+        return selectedStock;
+    }
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    public void setSelectedStock(Listitem selectedStock) {
+        this.selectedStock = selectedStock;
+    }
 
-	public CandlestickChartEngine getEngine() {
-		return engine;
-	}
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	public void setEngine(CandlestickChartEngine engine) {
-		this.engine = engine;
-	}
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public HiLoModel getModel() {
-		return model;
-	}
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	public void setModel(HiLoModel model) {
-		this.model = model;
-	}
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	public boolean isShow() {
-		return show;
-	}
+    public boolean isShow() {
+        return show;
+    }
 
-	public void setShow(boolean show) {
-		this.show = show;
-	}
+    public void setShow(boolean show) {
+        this.show = show;
+    }
+
+    public List<TWStockDailyTrading> getStockDailyTrading() {
+        return stockDailyTrading;
+    }
+
+    public void setStockDailyTrading(List<TWStockDailyTrading> stockDailyTrading) {
+        this.stockDailyTrading = stockDailyTrading;
+    }
 
 }

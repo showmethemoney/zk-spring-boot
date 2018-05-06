@@ -40,14 +40,19 @@
 
 	<grid visible="@load(not empty vm.todayPrice)">
 		<auxhead>
-            <auxheader colspan="4" label="@load(vm.todayPrice.code)  @load(vm.todayPrice.name)" />
+            <auxheader colspan="4">
+            	<label value="@load(vm.todayPrice.code)" />
+            	<label value="@load(vm.todayPrice.name)" />            	
+            </auxheader>
         </auxhead>
 		<rows sclass="narrow">	
 			<row>
 				<label value="最近成交價"/>
-				<label value="@load(vm.todayPrice.lastPrice)"/>
-				<label value="漲跌價差(百分比)"/>
-				<label value="@load(vm.todayPrice.priceDifferenceText)"/>
+				<label value="@load(vm.todayPrice.lastPrice)" style="@load(vm.todayPrice.positive ? 'color:red' : 'color: green')" >
+				</label>
+				<label value="漲跌價差(百分比)" />
+				<label value="@load(vm.todayPrice.priceDifferenceText)" style="@load(vm.todayPrice.positive ? 'color:red' : 'color: green')">
+				</label>
 			</row>
 			<row>
 				<label value="當盤成交量"/>
@@ -55,6 +60,54 @@
 				<label value="累積成交量"/>
 				<label value="@load(vm.todayPrice.totalTradeCount)"/>
 			</row>
+			<row>
+				<label value="開盤"/>
+				<label value="@load(vm.todayPrice.openPrice)"/>
+				<label value="最高"/>
+				<label value="@load(vm.todayPrice.highPrice)"/>
+			</row>
+			<row>
+				<label value="最低"/>
+				<label value="@load(vm.todayPrice.lowPrice)"/>
+			</row>
          </rows>
-	</grid>
+    </grid>
+	
+	
+	<div width="50%" style="float: left;">	
+		<listbox visible="@load(not empty vm.todayPrice)" model="@load(vm.todayPrice.waitForBuys)">
+		 	<auxhead>
+				<auxheader colspan="2" class="topic">最佳五檔買進價量資訊</auxheader>
+			</auxhead>
+	        <listhead>
+	            <listheader label="買進數量" />
+	            <listheader label="買進價格" />
+	        </listhead>
+	        <template name="model">
+	        	<listitem>
+	            	<listcell><label value="${each.count}"></label></listcell>
+	           		<listcell><label value="${each.price}"></label></listcell>
+	       		 </listitem>
+	        </template>
+    	</listbox>
+	</div>
+		 
+	<div width="50%" style="float: right;">	
+       <listbox  visible="@load(not empty vm.todayPrice)" model="@load(vm.todayPrice.waitForSells)">
+		 	<auxhead>
+				<auxheader colspan="2" class="topic">最佳五檔賣出價量資訊</auxheader>
+			</auxhead>
+	        <listhead>
+	            <listheader label="賣出數量" />
+	            <listheader label="賣出價格" />
+	        </listhead>
+	        <template name="model">
+	        	<listitem>
+	            	<listcell><label value="${each.count}"></label></listcell>
+	           		<listcell><label value="${each.price}"></label></listcell>
+	       		 </listitem>
+	        </template>
+   		</listbox> 
+   	</div>
+		  
 </window>
