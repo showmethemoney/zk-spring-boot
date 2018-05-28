@@ -29,12 +29,11 @@ public class TechnicalIndicatorService {
                 // 107/01/01
                 String[] tradingDateArr = trading.getTradingDate().split("/");
 
-                ZonedDateTime zonedDateTime = ZonedDateTime.of(LocalDateTime.of(1911 + Integer.valueOf(tradingDateArr[0]),
-                        Integer.valueOf(tradingDateArr[1]), Integer.valueOf(tradingDateArr[2]), 00, 00, 00, 00), ZoneId.of("Asia/Taipei"));
+                ZonedDateTime zonedDateTime = ZonedDateTime.of(
+                        LocalDateTime.of(1911 + Integer.valueOf(tradingDateArr[0]), Integer.valueOf(tradingDateArr[1]), Integer.valueOf(tradingDateArr[2]), 00, 00, 00, 00), ZoneId.of("Asia/Taipei"));
 
-                result.addBar(new BaseBar(zonedDateTime, DECIMAL_FORMAT.parse(trading.getOpeningPrice()).toString(),
-                        DECIMAL_FORMAT.parse(trading.getDayHigh()).toString(), DECIMAL_FORMAT.parse(trading.getDayLow()).toString(),
-                        DECIMAL_FORMAT.parse(trading.getClosingPrice()).toString(), DECIMAL_FORMAT.parse(trading.getTotalVolume()).toString()));
+                result.addBar(new BaseBar(zonedDateTime, DECIMAL_FORMAT.parse(trading.getOpeningPrice()).toString(), DECIMAL_FORMAT.parse(trading.getDayHigh()).toString(),
+                        DECIMAL_FORMAT.parse(trading.getDayLow()).toString(), DECIMAL_FORMAT.parse(trading.getClosingPrice()).toString(), DECIMAL_FORMAT.parse(trading.getTotalVolume()).toString()));
             }
         } catch (Throwable cause) {
             logger.error(cause.getMessage(), cause);

@@ -2,7 +2,6 @@ package zk.springboot.charts;
 
 import org.zkoss.chart.Charts;
 import org.zkoss.chart.Legend;
-import org.zkoss.chart.PlotLine;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Window;

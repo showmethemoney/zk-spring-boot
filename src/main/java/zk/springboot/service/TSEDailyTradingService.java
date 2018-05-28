@@ -44,8 +44,7 @@ public class TSEDailyTradingService implements DailyTradingService {
             builder.setParameter("date", DateFormatUtils.format(start, "yyyyMM") + "01").setParameter("stockNo", stockNo);
             response = client.execute(new HttpGet(builder.build()));
 
-            TSEDailyTrading tseDailyTrading =
-                    objectMapper.readValue(IOUtils.toString(response.getEntity().getContent(), "UTF-8"), TSEDailyTrading.class);
+            TSEDailyTrading tseDailyTrading = objectMapper.readValue(IOUtils.toString(response.getEntity().getContent(), "UTF-8"), TSEDailyTrading.class);
 
             result = tseDailyTrading.getData().stream().map(new Function<List<String>, TWStockDailyTrading>() {
                 @Override

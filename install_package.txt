@@ -1,0 +1,6 @@
+mvn install:install-file -Dfile=.\lib\LCFramework.jar -DgroupId=tw.com.lancer.team.framework -DartifactId=LCFramework -Dversion=1.0.0 -Dpackaging=jar
+
+mvn install:install-file -Dfile=.\lib\LCVocabulary.jar -DgroupId=tw.com.lancer.team.framework -DartifactId=LCVocabulary -Dversion=1.0.0 -Dpackaging=jar
+
+mvn install:install-file -Dfile=.\lib\jbossall-client.jar -DgroupId=tw.com.lancer.team.framework -DartifactId=jbossall-client -Dversion=1.0.0 -Dpackaging=jar
+

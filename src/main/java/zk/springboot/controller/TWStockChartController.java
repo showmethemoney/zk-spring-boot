@@ -3,7 +3,6 @@ package zk.springboot.controller;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
@@ -17,7 +16,6 @@ import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 import org.zkoss.zul.HiLoModel;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listitem;
-
 import zk.springboot.bean.TWIndustry;
 import zk.springboot.bean.TWStock;
 import zk.springboot.bean.TWStockDailyTrading;
@@ -29,103 +27,97 @@ import zk.springboot.service.TWStockService;
 @VariableResolver(DelegatingVariableResolver.class)
 public class TWStockChartController {
 
-	protected static final Logger logger = LoggerFactory.getLogger(TWStockChartController.class);
-	@WireVariable
-	private TWStockService stockService = null;
-	@WireVariable
-	private TWStcokChartService stockChartService = null;
-	
-	private CandlestickChartEngine engine = null;
-	private HiLoModel model = null;
+    protected static final Logger logger = LoggerFactory.getLogger(TWStockChartController.class);
+    @WireVariable
+    private TWStockService stockService = null;
+    @WireVariable
+    private TWStcokChartService stockChartService = null;
 
-	private ListModelList<Listitem> stockTypes = null;
-	private ListModelList<Listitem> industries = null;
-	private ListModelList<Listitem> stocks = null;
+    private CandlestickChartEngine engine = null;
+    private HiLoModel model = null;
 
-	private Listitem selectedStockType = null;
-	private Listitem selectedIndustry = null;
-	private Listitem selectedStock = null;
+    private ListModelList<Listitem> stockTypes = null;
+    private ListModelList<Listitem> industries = null;
+    private ListModelList<Listitem> stocks = null;
 
-	private Date startDate = null;
-	private Date endDate = null;
-	
-	private boolean show = false;
-	private List<TWStockDailyTrading> stockDailyTrading = null;
-	
-	@Init
-	public void init() {
-		engine = new CandlestickChartEngine();
+    private Listitem selectedStockType = null;
+    private Listitem selectedIndustry = null;
+    private Listitem selectedStock = null;
 
-		stockTypes = new ListModelList<Listitem>();
-		for (StockType stockType : StockType.values()) {
-			stockTypes.add(new Listitem(stockType.getName(), stockType.getType()));
-		}
+    private Date startDate = null;
+    private Date endDate = null;
 
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MONTH, -2);
-		startDate = calendar.getTime();
-		endDate = Calendar.getInstance().getTime();
-	}
+    private boolean show = false;
+    private List<TWStockDailyTrading> stockDailyTrading = null;
 
-	@NotifyChange({ "industries" })
-	@Command("selectStockType")
-	public void selectStockType() {
-		logger.info("onSelectStockType {} : {} ", getSelectedStockType().getLabel(), getSelectedStockType().getValue());
+    @Init
+    public void init() {
+        engine = new CandlestickChartEngine();
 
-		// 設定產業
-		List<TWIndustry> twIndustries = stockService.getIndustry(getSelectedStockType().getValue());
-		logger.info("TW Industry size : {}", twIndustries.size());
+        stockTypes = new ListModelList<Listitem>();
+        for (StockType stockType : StockType.values()) {
+            stockTypes.add(new Listitem(stockType.getName(), stockType.getType()));
+        }
 
-		industries = new ListModelList<Listitem>();
-		for (TWIndustry industry : twIndustries) {
-			industries.add(new Listitem(industry.getName(), industry.getCode()));
-		}
-	}
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -2);
+        startDate = calendar.getTime();
+        endDate = Calendar.getInstance().getTime();
+    }
 
-	@NotifyChange({ "stocks" })
-	@Command("selectIndustry")
-	public void selectIndustry() {
-		logger.info("onSelectIndustry {} : {} ", getSelectedIndustry().getLabel(), getSelectedIndustry().getValue());
+    @NotifyChange({"industries"})
+    @Command("selectStockType")
+    public void selectStockType() {
+        logger.info("onSelectStockType {} : {} ", getSelectedStockType().getLabel(), getSelectedStockType().getValue());
 
-		// 設定股票
-		List<TWStock> twStocks = stockService.getIndustryStocksByType(getSelectedStockType().getValue(),
-				getSelectedIndustry().getValue());
-		logger.info("TW Stock size : {}", twStocks.size());
+        // 設定產業
+        List<TWIndustry> twIndustries = stockService.getIndustry(getSelectedStockType().getValue());
+        logger.info("TW Industry size : {}", twIndustries.size());
 
-		stocks = new ListModelList<Listitem>();
-		for (TWStock stock : twStocks) {
-			stocks.add(new Listitem(stock.getName() + "(" + stock.getId() + ")", stock.getId()));
-		}
-	}
+        industries = new ListModelList<Listitem>();
+        for (TWIndustry industry : twIndustries) {
+            industries.add(new Listitem(industry.getName(), industry.getCode()));
+        }
+    }
 
-	@Command("selectStock")
-	public void selectStock() {
-		logger.info("onSelectStock {} : {} ", getSelectedStock().getLabel(), getSelectedStock().getValue());
-	}
+    @NotifyChange({"stocks"})
+    @Command("selectIndustry")
+    public void selectIndustry() {
+        logger.info("onSelectIndustry {} : {} ", getSelectedIndustry().getLabel(), getSelectedIndustry().getValue());
 
-	@NotifyChange({ "model", "stockDailyTrading","show" })
-	@Command("show")
-	public void show() {
-		try {
-			logger.info("stock type : {}, stock : {}, start date : {}, end date : {}",
-					getSelectedStockType().getValue(),
-					StringUtils.substringBefore(((String) getSelectedStock().getValue()), "."),
-					DateFormatUtils.format(getStartDate(), "yyyy/MM/dd hh:mm:ss"),
-					DateFormatUtils.format(getEndDate(), "yyyy/MM/dd hh:mm:ss"));
+        // 設定股票
+        List<TWStock> twStocks = stockService.getIndustryStocksByType(getSelectedStockType().getValue(), getSelectedIndustry().getValue());
+        logger.info("TW Stock size : {}", twStocks.size());
 
-			stockDailyTrading = stockService.getDailyTrade(getSelectedStockType().getValue(),
-					StringUtils.substringBefore(((String) getSelectedStock().getValue()), "."), getStartDate(),
-					getEndDate());
+        stocks = new ListModelList<Listitem>();
+        for (TWStock stock : twStocks) {
+            stocks.add(new Listitem(stock.getName() + "(" + stock.getId() + ")", stock.getId()));
+        }
+    }
 
-			model = stockChartService.getCandlestickChartModel(stockDailyTrading);
+    @Command("selectStock")
+    public void selectStock() {
+        logger.info("onSelectStock {} : {} ", getSelectedStock().getLabel(), getSelectedStock().getValue());
+    }
 
-			setShow(true);
-			logger.info("stockDailyTrading : {}, model : {}", stockDailyTrading.size(), model.getDataCount());
+    @NotifyChange({"model", "stockDailyTrading", "show"})
+    @Command("show")
+    public void show() {
+        try {
+            logger.info("stock type : {}, stock : {}, start date : {}, end date : {}", getSelectedStockType().getValue(), StringUtils.substringBefore(((String) getSelectedStock().getValue()), "."),
+                    DateFormatUtils.format(getStartDate(), "yyyy/MM/dd hh:mm:ss"), DateFormatUtils.format(getEndDate(), "yyyy/MM/dd hh:mm:ss"));
 
-		} catch (Throwable cause) {
-			logger.error(cause.getMessage(), cause);
-		}
-	}
+            stockDailyTrading = stockService.getDailyTrade(getSelectedStockType().getValue(), StringUtils.substringBefore(((String) getSelectedStock().getValue()), "."), getStartDate(), getEndDate());
+
+            model = stockChartService.getCandlestickChartModel(stockDailyTrading);
+
+            setShow(true);
+            logger.info("stockDailyTrading : {}, model : {}", stockDailyTrading.size(), model.getDataCount());
+
+        } catch (Throwable cause) {
+            logger.error(cause.getMessage(), cause);
+        }
+    }
 
     public CandlestickChartEngine getEngine() {
         return engine;

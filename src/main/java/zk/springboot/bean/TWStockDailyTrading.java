@@ -22,8 +22,8 @@ public class TWStockDailyTrading {
 
     public TWStockDailyTrading() {}
 
-    public TWStockDailyTrading(String tradingDate, String tradingShares, String turnover, String openingPrice, String closingPrice, String dayHigh,
-            String dayLow, String priceDifference, String totalVolume) {
+    public TWStockDailyTrading(String tradingDate, String tradingShares, String turnover, String openingPrice, String closingPrice, String dayHigh, String dayLow, String priceDifference,
+            String totalVolume) {
         this.tradingDate = tradingDate;
         this.tradingShares = tradingShares;
         this.turnover = turnover;

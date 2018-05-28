@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//▲ rika ▼ discord
+// ▲ rika ▼ discord
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TWStockPrice implements Serializable {
@@ -42,7 +42,7 @@ public class TWStockPrice implements Serializable {
     private String highestPrice = null;
     @JsonProperty("z") // 最近 成交價
     private String lastPrice = null;
-    @JsonProperty("y")  
+    @JsonProperty("y")
     private String yesterdayPrice = null;
     @JsonProperty("n") // 名稱
     private String name = null;
@@ -241,15 +241,15 @@ public class TWStockPrice implements Serializable {
         if (StringUtils.isBlank(getPriceDifference())) {
             return "";
         } else {
-            return (isPositive() ? "▲ " :"▼ ") + getPriceDifference() + String.format(" (%,.2f%%)", Float.valueOf(getPriceDifferencePercent() ) * 100 );
+            return (isPositive() ? "▲ " : "▼ ") + getPriceDifference() + String.format(" (%,.2f%%)", Float.valueOf(getPriceDifferencePercent()) * 100);
         }
     }
-    
+
     public boolean isPositive() {
         BigDecimal difference = new BigDecimal(StringUtils.isBlank(getPriceDifference()) ? "0" : getPriceDifference());
         return difference.compareTo(BigDecimal.ZERO) > 0;
     }
-    
+
     public String toString() {
         return new ToStringBuilder(this).append("id", id).append("lastTradeCount", lastTradeCount).append("totalTradeCount", totalTradeCount).append("lastTradeDate", lastTradeDate)
                 .append("waitForSellCounts", waitForSellCounts).append("waitForSellPrices", waitForSellPrices).append("waitForBuyCounts", waitForBuyCounts).append("waitForBuyPrices", waitForBuyPrices)

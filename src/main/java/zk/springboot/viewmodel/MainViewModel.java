@@ -3,7 +3,6 @@ package zk.springboot.viewmodel;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.stereotype.Service;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;

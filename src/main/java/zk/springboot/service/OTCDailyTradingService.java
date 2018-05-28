@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -40,13 +39,10 @@ public class OTCDailyTradingService implements DailyTradingService {
             builder = new URIBuilder(URL_OTC_DAILY_TRADING);
             // {'d': '%d/%d' % (year - 1911, month), 'stkno': sid}
             // ( "d", "107/01" ) ( "stkno", "5820" );
-            builder.setParameter("d",
-                    String.format("%1$d/%2$s", Integer.parseInt(DateFormatUtils.format(start, "yyyy")) - 1911, DateFormatUtils.format(start, "MM")))
-                    .setParameter("stkno", stockNo);
+            builder.setParameter("d", String.format("%1$d/%2$s", Integer.parseInt(DateFormatUtils.format(start, "yyyy")) - 1911, DateFormatUtils.format(start, "MM"))).setParameter("stkno", stockNo);
             response = client.execute(new HttpGet(builder.build()));
 
-            OTCDailyTrading otcDailyTrading =
-                    objectMapper.readValue(IOUtils.toString(response.getEntity().getContent(), "UTF-8"), OTCDailyTrading.class);
+            OTCDailyTrading otcDailyTrading = objectMapper.readValue(IOUtils.toString(response.getEntity().getContent(), "UTF-8"), OTCDailyTrading.class);
 
             result = otcDailyTrading.getData().stream().map(new Function<List<String>, TWStockDailyTrading>() {
                 @Override

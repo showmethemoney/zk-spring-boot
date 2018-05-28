@@ -42,13 +42,11 @@ public class TestTWStockService {
         assertNotNull(service);
 
         service.getIndustryStocksByType(StockType.TSE.getType(), "01").stream().forEach(e -> {
-            logger.info("{} ===> name : {}, fullname : {}, industryCode : {}", StockType.TSE.getType(), e.getName(), e.getFullName(),
-                    e.getIndustryCode());
+            logger.info("{} ===> name : {}, fullname : {}, industryCode : {}", StockType.TSE.getType(), e.getName(), e.getFullName(), e.getIndustryCode());
         });
 
         service.getIndustryStocksByType(StockType.OTC.getType(), "17").stream().forEach(e -> {
-            logger.info("{} ===> name : {}, fullname : {}, industryCode : {}", StockType.OTC.getType(), e.getName(), e.getFullName(),
-                    e.getIndustryCode());
+            logger.info("{} ===> name : {}, fullname : {}, industryCode : {}", StockType.OTC.getType(), e.getName(), e.getFullName(), e.getIndustryCode());
         });
     }
 
@@ -71,30 +69,27 @@ public class TestTWStockService {
         });
     }
 
-//    @Ignore
+    // @Ignore
     @Test
     public void testGetDailyTrade() {
         Calendar start = Calendar.getInstance();
         start.add(Calendar.MONTH, -1);
         Calendar end = Calendar.getInstance();
 
-//        service.getDailyTrade(StockType.TSE.getType(), "1101", start.getTime(), end.getTime()).stream().forEach(e -> {
-//            logger.info("{} --> getOpeningPrice: {}, getDayHigh: {}, getDayLow: {}, getClosingPrice: {}", 
-//                    StockType.TSE.getType(), 
-//                    e.getOpeningPrice(), 
-//                    e.getDayHigh(), 
-//                    e.getDayLow(), 
-//                    e.getClosingPrice());
-//        });
- 
+        // service.getDailyTrade(StockType.TSE.getType(), "1101", start.getTime(),
+        // end.getTime()).stream().forEach(e -> {
+        // logger.info("{} --> getOpeningPrice: {}, getDayHigh: {}, getDayLow: {}, getClosingPrice: {}",
+        // StockType.TSE.getType(),
+        // e.getOpeningPrice(),
+        // e.getDayHigh(),
+        // e.getDayLow(),
+        // e.getClosingPrice());
+        // });
+
         service.getDailyTrade(StockType.OTC.getType(), "5820", start.getTime(), end.getTime()).stream().forEach(e -> {
-          logger.info("{} --> getOpeningPrice: {}, getDayHigh: {}, getDayLow: {}, getClosingPrice: {}", 
-          StockType.TSE.getType(), 
-          e.getOpeningPrice(), 
-          e.getDayHigh(), 
-          e.getDayLow(), 
-          e.getClosingPrice());
+            logger.info("{} --> getOpeningPrice: {}, getDayHigh: {}, getDayLow: {}, getClosingPrice: {}", StockType.TSE.getType(), e.getOpeningPrice(), e.getDayHigh(), e.getDayLow(),
+                    e.getClosingPrice());
         });
     }
-    
+
 }

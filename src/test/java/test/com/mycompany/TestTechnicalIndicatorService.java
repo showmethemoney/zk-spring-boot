@@ -2,12 +2,20 @@ package test.com.mycompany;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.Chronology;
+import java.time.chrono.MinguoChronology;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DecimalStyle;
+import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.List;
-import org.jfree.chart.ChartFactory;
+import java.util.Locale;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,7 +72,7 @@ public class TestTechnicalIndicatorService {
         return result;
     }
 
-    @Ignore
+    // @Ignore
     @Test
     public void testTechnicalIndicator() {
         try {
@@ -74,14 +82,22 @@ public class TestTechnicalIndicatorService {
             DecimalFormat format = new DecimalFormat("#,###,###.##");
             TimeSeries series = new BaseTimeSeries();
 
-            for (TWStockDailyTrading trading : tradings) {
-                String[] tradingDateArr = trading.getTradingDate().split("/");
+            Locale locale = Locale.getDefault(Locale.Category.FORMAT);
+            Chronology chrono = MinguoChronology.INSTANCE;
+            DateTimeFormatter df = new DateTimeFormatterBuilder().parseLenient().appendPattern("yy/MM/dd").toFormatter().withChronology(chrono).withDecimalStyle(DecimalStyle.of(locale));
 
-                zonedDateTime = ZonedDateTime.of(LocalDateTime.of(1911 + Integer.valueOf(tradingDateArr[0]), Integer.valueOf(tradingDateArr[1]),
-                        Integer.valueOf(tradingDateArr[2]), 00, 00, 00, 00), ZoneId.of("Asia/Taipei"));
-                series.addBar(new BaseBar(zonedDateTime, format.parse(trading.getOpeningPrice()).toString(),
-                        format.parse(trading.getDayHigh()).toString(), format.parse(trading.getDayLow()).toString(),
-                        format.parse(trading.getClosingPrice()).toString(), format.parse(trading.getTotalVolume()).toString()));
+            for (TWStockDailyTrading trading : tradings) {
+                TemporalAccessor temporal = df.parse(trading.getTradingDate());
+                ChronoLocalDate localDate = chrono.date(temporal);
+                // ;
+                zonedDateTime = ZonedDateTime.ofInstant(LocalDate.from(localDate).atStartOfDay(ZoneId.of("UTC+8")).toInstant(), ZoneId.of("UTC+8"));
+                // String[] tradingDateArr = trading.getTradingDate().split("/");
+
+                // zonedDateTime = ZonedDateTime.of(LocalDateTime.of(1911 + Integer.valueOf(tradingDateArr[0]),
+                // Integer.valueOf(tradingDateArr[1]),
+                // Integer.valueOf(tradingDateArr[2]), 00, 00, 00, 00), ZoneId.of("Asia/Taipei"));
+                series.addBar(new BaseBar(zonedDateTime, format.parse(trading.getOpeningPrice()).toString(), format.parse(trading.getDayHigh()).toString(),
+                        format.parse(trading.getDayLow()).toString(), format.parse(trading.getClosingPrice()).toString(), format.parse(trading.getTotalVolume()).toString()));
             }
 
             ClosePriceIndicator closePrice = new ClosePriceIndicator(series);
@@ -90,8 +106,8 @@ public class TestTechnicalIndicatorService {
             EMAIndicator longEma = new EMAIndicator(closePrice, 20);
 
             for (int i = 0; i < series.getBarCount(); i++) {
-                logger.info("time series : {}, close price : {}, EMA Indicator [8] : {}, EMA Indicator  [20] : {}", series.getBar(i).getEndTime(),
-                        closePrice.getValue(i), shortEma.getValue(i), longEma.getValue(i));
+                logger.info("time series : {}, close price : {}, EMA Indicator [8] : {}, EMA Indicator  [20] : {}", series.getBar(i).getEndTime(), closePrice.getValue(i), shortEma.getValue(i),
+                        longEma.getValue(i));
             }
         } catch (Throwable cause) {
             logger.error(cause.getMessage(), cause);

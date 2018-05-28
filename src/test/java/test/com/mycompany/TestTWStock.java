@@ -2,7 +2,6 @@ package test.com.mycompany;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
@@ -101,7 +100,7 @@ public class TestTWStock {
         }
     }
 
-//    @Ignore
+    // @Ignore
     @Test
     public void testGetStockInfo() {
         HttpGet request = null;
@@ -122,16 +121,15 @@ public class TestTWStock {
             // );
             String str = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
             logger.info(str);
-            TWStockPriceInfo stockPriceInfo = new ObjectMapper()
-                    .readValue(StringUtils.trim(str), TWStockPriceInfo.class);
+            TWStockPriceInfo stockPriceInfo = new ObjectMapper().readValue(StringUtils.trim(str), TWStockPriceInfo.class);
 
             for (TWStockPrice price : stockPriceInfo.getStockPrices()) {
                 logger.info(price.getPriceDifference());
                 logger.info(price.getPriceDifferencePercent());
                 logger.info(price.getPriceDifferenceText());
             }
-            
-            
+
+
         } catch (Throwable cause) {
             logger.error(cause.getMessage(), cause);
         }

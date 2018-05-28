@@ -148,6 +148,5 @@ public class TWStockController {
     public void setTodayPrice(TWStockPrice todayPrice) {
         this.todayPrice = todayPrice;
     }
-    
-    
+
 }

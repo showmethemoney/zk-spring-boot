@@ -8,7 +8,6 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
-import org.zkoss.zul.Area;
 import org.zkoss.zul.HiLoModel;
 import org.zkoss.zul.SimpleHiLoModel;
 import zk.springboot.charts.candlestick.model.ChartData;
